@@ -1,0 +1,70 @@
+architecture: QueryInst
+pretrain_weights: C:/Users/saxsax/Desktop/PaddleDetection-release-2.4/1.pdparams
+QueryInst:
+  backbone: ResNet
+  neck: FPN
+  rpn_head: EmbeddingRPNHead
+  bbox_head: DIIHead
+  mask_head: DynamicMaskHead
+  bbox_roi_extractor:
+    resolution: 7
+    sampling_ratio: 2
+    aligned: True
+    spatial_scale: [0.25,0.125,0.0625,0.03125]
+  mask_roi_extractor:
+    resolution: 14
+    sampling_ratio: 2
+    aligned: True
+    spatial_scale: [0.25,0.125,0.0625,0.03125]
+  num_classes: 1
+  mask_resolution: 28
+  num_proposals: 100
+
+
+
+ResNet:
+
+  depth: 50
+  norm_type: bn
+  freeze_at: 1
+  return_idx: [ 0,1,2,3 ]
+  num_stages: 4
+
+FPN:
+  out_channel: 256
+  extra_stage: 0
+
+EmbeddingRPNHead:
+  num_proposals: 100
+  proposal_feature_channel: 256
+
+DIIHead:
+  num_lasses: 80
+  num_ffn_fcs: 2
+  num_heads: 8
+  num_cls_fcs: 1
+  num_reg_fcs: 3
+  feedforward_channels: 2048
+  dropout: 0.0
+  in_channels: 256
+  feat_channels: 64
+  out_channels: 256
+  input_feat_shape: 7
+  with_proj: True
+
+DynamicMaskHead:
+  num_classes: 80
+  dropout: 0.
+  num_convs: 4
+  roi_feat_size: 14
+  in_channels: 256
+  conv_kernel_size: 3
+  conv_out_channels: 256
+  class_agnostic: False
+  conv_cfg: None
+  norm_cfg: None
+  feat_channels: 64
+  out_channels: 256
+  input_feat_shape: 14
+  with_proj: False
+  upsample_method: "deconv"

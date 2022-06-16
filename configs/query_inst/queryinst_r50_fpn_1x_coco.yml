@@ -1,0 +1,10 @@
+_BASE_: [
+  '../datasets/coco_instance.yml',
+  '../runtime.yml',
+  '_base_/optimizer.yml',
+  '_base_/query_inst_fpn.yml',
+  '_base_/query_inst_reader.yml',
+
+
+]
+weights: C:/Users/saxsax/Desktop/PaddleDetection-release-2.4/1.pdparams
